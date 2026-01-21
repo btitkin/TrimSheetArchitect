@@ -723,6 +723,7 @@ const App: React.FC = () => {
                     </div>
                     <h1 className="font-bold text-xl tracking-tight text-slate-100 hidden md:block">Trim Sheet Architect</h1>
                     <span className="text-xs font-normal text-slate-500 border border-slate-700 rounded px-1.5 py-0.5 ml-1">v2.5.0</span>
+                    <a href="https://www.artstation.com/bartosztitkin" target="_blank" rel="noopener noreferrer" className="text-xs font-normal text-slate-500 hover:text-slate-300 transition-colors ml-1">by Bartosz Titkin</a>
                 </div>
             </header>
 
@@ -753,10 +754,10 @@ const App: React.FC = () => {
                                 <Tooltip text="Sets the canvas resolution in pixels (Square)." side="left" />
                             </div>
                         </div>
-                    </div>
+                    </div >
 
                     {/* Layout Strategy (Zones) */}
-                    <div>
+                    < div >
                         <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2.5 flex items-center gap-2">
                             <LayoutTemplate size={14} /> Sheet Layout
                             <Tooltip text="Choose a base topology for your Trim Sheet zones." side="right" />
@@ -818,10 +819,10 @@ const App: React.FC = () => {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </div >
 
                     {/* Visual Style */}
-                    <div>
+                    < div >
                         <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2.5 flex items-center gap-2">
                             <Eye size={14} /> Style
                             <Tooltip text="Change how the sheet is rendered for export or preview." side="right" />
@@ -923,15 +924,15 @@ const App: React.FC = () => {
                                 </label>
                             </div>
                         </div>
-                    </div>
+                    </div >
 
                     {/* HOW TO START BUTTON */}
-                    <button
+                    < button
                         onClick={() => setShowHelpModal(true)}
                         className="w-full py-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-sm font-bold text-blue-400 flex items-center justify-center gap-2.5 transition-all hover:border-blue-500/50"
                     >
-                        <BookOpen size={16} /> How to Start?
-                    </button>
+                        <BookOpen size={16} /> How to Start ?
+                    </button >
 
                     <div className="flex-1"></div>
 
@@ -952,10 +953,10 @@ const App: React.FC = () => {
                             <Tooltip text="Export current view as image." side="top" />
                         </button>
                     </div>
-                </aside>
+                </aside >
 
                 {/* CENTER: Viewport */}
-                <main
+                < main
                     className="flex-1 bg-slate-950 relative overflow-hidden cursor-grab active:cursor-grabbing"
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
@@ -965,7 +966,7 @@ const App: React.FC = () => {
                     ref={viewportRef}
                 >
                     {/* Canvas Container with Transform */}
-                    <div
+                    < div
                         className="absolute origin-center transition-transform duration-75 ease-out shadow-2xl"
                         style={{
                             transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
@@ -981,10 +982,10 @@ const App: React.FC = () => {
                             activeZoneIds={activeZoneIds}
                             showSelectionOverlay={showSelectionOverlay}
                         />
-                    </div>
+                    </div >
 
                     {/* Viewport Overlay Controls */}
-                    <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-slate-900/90 backdrop-blur border border-slate-800 rounded-full px-4 py-2 shadow-xl">
+                    < div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-slate-900/90 backdrop-blur border border-slate-800 rounded-full px-4 py-2 shadow-xl" >
                         <button onClick={() => setZoom(z => Math.max(0.2, z - 0.2))} className="p-1.5 hover:text-white text-slate-400"><ZoomOut size={18} /></button>
                         <span className="text-sm font-mono w-14 text-center">{Math.round(zoom * 100)}%</span>
                         <button onClick={() => setZoom(z => Math.min(5, z + 0.2))} className="p-1.5 hover:text-white text-slate-400"><ZoomIn size={18} /></button>
@@ -998,178 +999,180 @@ const App: React.FC = () => {
                         </button>
                         <div className="w-px h-5 bg-slate-700 mx-1"></div>
                         <button onClick={() => { setZoom(0.5); setPan({ x: 0, y: 0 }); }} className="p-1.5 hover:text-white text-slate-400" title="Reset View"><RotateCcw size={18} /></button>
-                    </div>
+                    </div >
 
                     <div className="absolute top-4 left-4 text-xs text-slate-500 bg-black/50 px-3 py-1.5 rounded">
                         Scroll to Zoom • Drag to Pan • Toggle Zone Selection by Click
                     </div>
-                </main>
+                </main >
 
                 {/* RIGHT SIDEBAR: Editor Panel */}
-                <aside className="w-[420px] flex flex-col border-l border-slate-800 bg-slate-900/50 backdrop-blur-sm z-10">
-                    {activeZoneIds.length > 0 ? (
-                        <>
-                            {/* Header depends on Selection Count */}
-                            <div className="p-5 border-b border-slate-800 bg-slate-900/80 space-y-4">
-                                <div className="flex items-center justify-between">
-                                    <h2 className="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-                                        {activeZoneIds.length > 1 ? (
-                                            <>
-                                                <CheckSquare size={16} className="text-blue-500" />
-                                                {activeZoneIds.length} Zones Selected
-                                            </>
-                                        ) : (
-                                            <>
-                                                <MousePointer2 size={16} className="text-blue-500" />
-                                                {primaryActiveZone?.name}
-                                            </>
+                < aside className="w-[420px] flex flex-col border-l border-slate-800 bg-slate-900/50 backdrop-blur-sm z-10" >
+                    {
+                        activeZoneIds.length > 0 ? (
+                            <>
+                                {/* Header depends on Selection Count */}
+                                <div className="p-5 border-b border-slate-800 bg-slate-900/80 space-y-4">
+                                    <div className="flex items-center justify-between">
+                                        <h2 className="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
+                                            {activeZoneIds.length > 1 ? (
+                                                <>
+                                                    <CheckSquare size={16} className="text-blue-500" />
+                                                    {activeZoneIds.length} Zones Selected
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <MousePointer2 size={16} className="text-blue-500" />
+                                                    {primaryActiveZone?.name}
+                                                </>
+                                            )}
+                                        </h2>
+                                        {primaryActiveZone && (
+                                            <span className="text-[10px] font-mono text-slate-500 border border-slate-700 px-2 py-0.5 rounded bg-slate-800">
+                                                {Math.round(primaryActiveZone.width * 100)}% x {Math.round(primaryActiveZone.height * 100)}%
+                                            </span>
                                         )}
-                                    </h2>
-                                    {primaryActiveZone && (
-                                        <span className="text-[10px] font-mono text-slate-500 border border-slate-700 px-2 py-0.5 rounded bg-slate-800">
-                                            {Math.round(primaryActiveZone.width * 100)}% x {Math.round(primaryActiveZone.height * 100)}%
-                                        </span>
+                                    </div>
+
+                                    {/* Macro Controls (Work for Single or Multi) */}
+                                    <div className="flex bg-slate-900 border border-slate-800 rounded p-1.5 relative group">
+                                        <div className="absolute top-0 right-0 p-1"><Tooltip text="Rotates the layout direction of strips within the zone." side="left" /></div>
+                                        <button
+                                            onClick={() => handleOrientationChange('horizontal')}
+                                            className={`flex-1 flex items-center justify-center gap-2 text-xs font-medium py-2 rounded transition-all ${(primaryActiveZone?.layoutMode === 'horizontal' && activeZoneIds.length === 1)
+                                                ? 'bg-blue-600 text-white shadow-sm'
+                                                : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800'
+                                                }`}
+                                        >
+                                            <MoveVertical size={14} /> Rows
+                                        </button>
+                                        <button
+                                            onClick={() => handleOrientationChange('vertical')}
+                                            className={`flex-1 flex items-center justify-center gap-2 text-xs font-medium py-2 rounded transition-all ${(primaryActiveZone?.layoutMode === 'vertical' && activeZoneIds.length === 1)
+                                                ? 'bg-blue-600 text-white shadow-sm'
+                                                : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800'
+                                                }`}
+                                        >
+                                            <MoveHorizontal size={14} /> Cols
+                                        </button>
+                                    </div>
+
+                                    {/* Generators & Templates */}
+                                    <div className="space-y-3">
+                                        {/* Zone Templates */}
+                                        <div className="bg-slate-900 border border-slate-800 rounded p-3 flex flex-col gap-2.5">
+                                            <label className="text-xs uppercase text-slate-500 font-bold tracking-wider flex items-center gap-2">
+                                                <LayoutList size={12} /> Apply Zone Template
+                                                <Tooltip text="Presets for common trim sheet patterns (e.g. 4x Uniform)." side="left" />
+                                            </label>
+                                            <div className="flex gap-2">
+                                                <select
+                                                    value={selectedZoneTemplate}
+                                                    onChange={(e) => setSelectedZoneTemplate(e.target.value as ZoneTemplateType)}
+                                                    className="flex-1 bg-slate-800 border border-slate-700 rounded px-3 py-2 text-sm outline-none"
+                                                >
+                                                    {ZONE_TEMPLATES.map(t => (
+                                                        <option key={t.value} value={t.value}>{t.label}</option>
+                                                    ))}
+                                                </select>
+                                                <button onClick={handleApplyZoneTemplate} className="px-4 bg-blue-900/40 border border-blue-800 text-blue-200 rounded hover:bg-blue-800/40 text-xs font-medium">
+                                                    Apply
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {/* Auto Fill / Randomizer */}
+                                        <div className="bg-slate-900 border border-slate-800 rounded p-3 flex flex-col gap-2.5">
+                                            <label className="text-xs uppercase text-slate-500 font-bold tracking-wider flex items-center justify-between">
+                                                <span className="flex items-center gap-2">
+                                                    <Shuffle size={12} /> Auto-Fill Generator
+                                                    <Tooltip text="Randomly generate strips to fill the zone." side="right" />
+                                                </span>
+                                                <span className="text-slate-400 flex items-center gap-1 font-normal text-[10px]">Max: {maxRandomStrips} <Tooltip text="Max number of strips to generate." side="left" /></span>
+                                            </label>
+                                            <div className="flex items-center gap-3">
+                                                <input
+                                                    type="range"
+                                                    min="1" max="16"
+                                                    value={maxRandomStrips}
+                                                    onChange={(e) => setMaxRandomStrips(parseInt(e.target.value))}
+                                                    className="flex-1 h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                                                />
+                                                <button onClick={handleRandomize} className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs text-slate-300 font-medium">
+                                                    Generate
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {/* Quick Actions */}
+                                        <div className="flex gap-2">
+                                            <button onClick={handleUniqueColors} className="flex-1 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs flex items-center justify-center gap-1.5 text-slate-300 font-medium">
+                                                <Palette size={12} /> Colorize
+                                                <Tooltip text="Assign random unique colors to all strips." side="top" />
+                                            </button>
+                                            {primaryActiveZone && validation.zoneResults[primaryActiveZone.id].remaining > 0 && (
+                                                <button onClick={handleFillRemaining} className="flex-1 py-2 bg-amber-900/30 border border-amber-800 text-amber-300 rounded text-xs flex items-center justify-center gap-1.5 font-medium">
+                                                    <Maximize size={12} /> Fill Rem
+                                                    <Tooltip text="Add a placeholder strip to fill empty space." side="top" />
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Validation Info (Only for Single) */}
+                                    {primaryActiveZone && activeZoneIds.length === 1 && (
+                                        <div className={`text-xs px-3 py-1.5 rounded border flex justify-between items-center ${validation.zoneResults[primaryActiveZone.id].isValid ? 'bg-emerald-900/20 border-emerald-800 text-emerald-400' : 'bg-amber-900/20 border-amber-800 text-amber-400'}`}>
+                                            <span className="font-medium">{validation.zoneResults[primaryActiveZone.id].isValid ? 'Perfect Fit' : 'Size Mismatch'}</span>
+                                            <span className="flex items-center gap-1 font-mono">
+                                                {validation.zoneResults[primaryActiveZone.id].currentSize} / {validation.zoneResults[primaryActiveZone.id].targetSize}px
+                                                <Tooltip text="Ensure total strip size matches zone size." side="left" />
+                                            </span>
+                                        </div>
+                                    )}
+                                    {activeZoneIds.length > 1 && (
+                                        <div className="text-xs px-3 py-2 rounded border bg-blue-900/20 border-blue-800 text-blue-300 flex items-center gap-2">
+                                            <Info size={14} />
+                                            <span>Edits synced across {activeZoneIds.length} zones.</span>
+                                        </div>
                                     )}
                                 </div>
 
-                                {/* Macro Controls (Work for Single or Multi) */}
-                                <div className="flex bg-slate-900 border border-slate-800 rounded p-1.5 relative group">
-                                    <div className="absolute top-0 right-0 p-1"><Tooltip text="Rotates the layout direction of strips within the zone." side="left" /></div>
-                                    <button
-                                        onClick={() => handleOrientationChange('horizontal')}
-                                        className={`flex-1 flex items-center justify-center gap-2 text-xs font-medium py-2 rounded transition-all ${(primaryActiveZone?.layoutMode === 'horizontal' && activeZoneIds.length === 1)
-                                            ? 'bg-blue-600 text-white shadow-sm'
-                                            : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800'
-                                            }`}
-                                    >
-                                        <MoveVertical size={14} /> Rows
-                                    </button>
-                                    <button
-                                        onClick={() => handleOrientationChange('vertical')}
-                                        className={`flex-1 flex items-center justify-center gap-2 text-xs font-medium py-2 rounded transition-all ${(primaryActiveZone?.layoutMode === 'vertical' && activeZoneIds.length === 1)
-                                            ? 'bg-blue-600 text-white shadow-sm'
-                                            : 'text-slate-500 hover:text-slate-300 hover:bg-slate-800'
-                                            }`}
-                                    >
-                                        <MoveHorizontal size={14} /> Cols
-                                    </button>
-                                </div>
-
-                                {/* Generators & Templates */}
-                                <div className="space-y-3">
-                                    {/* Zone Templates */}
-                                    <div className="bg-slate-900 border border-slate-800 rounded p-3 flex flex-col gap-2.5">
-                                        <label className="text-xs uppercase text-slate-500 font-bold tracking-wider flex items-center gap-2">
-                                            <LayoutList size={12} /> Apply Zone Template
-                                            <Tooltip text="Presets for common trim sheet patterns (e.g. 4x Uniform)." side="left" />
-                                        </label>
-                                        <div className="flex gap-2">
-                                            <select
-                                                value={selectedZoneTemplate}
-                                                onChange={(e) => setSelectedZoneTemplate(e.target.value as ZoneTemplateType)}
-                                                className="flex-1 bg-slate-800 border border-slate-700 rounded px-3 py-2 text-sm outline-none"
-                                            >
-                                                {ZONE_TEMPLATES.map(t => (
-                                                    <option key={t.value} value={t.value}>{t.label}</option>
-                                                ))}
-                                            </select>
-                                            <button onClick={handleApplyZoneTemplate} className="px-4 bg-blue-900/40 border border-blue-800 text-blue-200 rounded hover:bg-blue-800/40 text-xs font-medium">
-                                                Apply
+                                {/* Strip List Content - UNLOCKED FOR MULTI-SELECTION */}
+                                <div className="flex-1 overflow-y-auto p-5 custom-scrollbar">
+                                    {primaryActiveZone ? (
+                                        <div className="flex flex-col gap-3 pb-8">
+                                            {primaryActiveZone.strips.map((strip, idx) => (
+                                                <StripEditor
+                                                    key={strip.id}
+                                                    index={idx}
+                                                    strip={strip}
+                                                    totalStrips={primaryActiveZone.strips.length}
+                                                    isVertical={primaryActiveZone.layoutMode === 'vertical'}
+                                                    onChange={handleUpdateStrip}
+                                                    onRemove={handleRemoveStrip}
+                                                    onMove={handleMoveStrip}
+                                                />
+                                            ))}
+                                            <button onClick={handleAddStrip} className="w-full py-5 mt-3 border-2 border-dashed border-slate-800 hover:border-blue-500/50 rounded-lg text-slate-600 hover:text-blue-400 hover:bg-slate-800/30 transition-all flex flex-col items-center justify-center gap-1.5 group">
+                                                <Plus size={28} className="opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all" />
+                                                <span className="text-sm font-bold">ADD STRIP TO {activeZoneIds.length > 1 ? 'ALL ZONES' : 'ZONE'}</span>
                                             </button>
                                         </div>
-                                    </div>
-
-                                    {/* Auto Fill / Randomizer */}
-                                    <div className="bg-slate-900 border border-slate-800 rounded p-3 flex flex-col gap-2.5">
-                                        <label className="text-xs uppercase text-slate-500 font-bold tracking-wider flex items-center justify-between">
-                                            <span className="flex items-center gap-2">
-                                                <Shuffle size={12} /> Auto-Fill Generator
-                                                <Tooltip text="Randomly generate strips to fill the zone." side="right" />
-                                            </span>
-                                            <span className="text-slate-400 flex items-center gap-1 font-normal text-[10px]">Max: {maxRandomStrips} <Tooltip text="Max number of strips to generate." side="left" /></span>
-                                        </label>
-                                        <div className="flex items-center gap-3">
-                                            <input
-                                                type="range"
-                                                min="1" max="16"
-                                                value={maxRandomStrips}
-                                                onChange={(e) => setMaxRandomStrips(parseInt(e.target.value))}
-                                                className="flex-1 h-1.5 bg-slate-700 rounded-lg appearance-none cursor-pointer accent-blue-500"
-                                            />
-                                            <button onClick={handleRandomize} className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs text-slate-300 font-medium">
-                                                Generate
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    {/* Quick Actions */}
-                                    <div className="flex gap-2">
-                                        <button onClick={handleUniqueColors} className="flex-1 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded text-xs flex items-center justify-center gap-1.5 text-slate-300 font-medium">
-                                            <Palette size={12} /> Colorize
-                                            <Tooltip text="Assign random unique colors to all strips." side="top" />
-                                        </button>
-                                        {primaryActiveZone && validation.zoneResults[primaryActiveZone.id].remaining > 0 && (
-                                            <button onClick={handleFillRemaining} className="flex-1 py-2 bg-amber-900/30 border border-amber-800 text-amber-300 rounded text-xs flex items-center justify-center gap-1.5 font-medium">
-                                                <Maximize size={12} /> Fill Rem
-                                                <Tooltip text="Add a placeholder strip to fill empty space." side="top" />
-                                            </button>
-                                        )}
-                                    </div>
+                                    ) : null}
                                 </div>
-
-                                {/* Validation Info (Only for Single) */}
-                                {primaryActiveZone && activeZoneIds.length === 1 && (
-                                    <div className={`text-xs px-3 py-1.5 rounded border flex justify-between items-center ${validation.zoneResults[primaryActiveZone.id].isValid ? 'bg-emerald-900/20 border-emerald-800 text-emerald-400' : 'bg-amber-900/20 border-amber-800 text-amber-400'}`}>
-                                        <span className="font-medium">{validation.zoneResults[primaryActiveZone.id].isValid ? 'Perfect Fit' : 'Size Mismatch'}</span>
-                                        <span className="flex items-center gap-1 font-mono">
-                                            {validation.zoneResults[primaryActiveZone.id].currentSize} / {validation.zoneResults[primaryActiveZone.id].targetSize}px
-                                            <Tooltip text="Ensure total strip size matches zone size." side="left" />
-                                        </span>
-                                    </div>
-                                )}
-                                {activeZoneIds.length > 1 && (
-                                    <div className="text-xs px-3 py-2 rounded border bg-blue-900/20 border-blue-800 text-blue-300 flex items-center gap-2">
-                                        <Info size={14} />
-                                        <span>Edits synced across {activeZoneIds.length} zones.</span>
-                                    </div>
-                                )}
+                            </>
+                        ) : (
+                            <div className="flex-1 flex flex-col items-center justify-center text-slate-600 p-8 text-center">
+                                <MousePointer2 size={64} className="mb-6 opacity-20" />
+                                <p className="text-base font-medium text-slate-400">Select a Zone</p>
+                                <p className="text-sm mt-2 text-slate-500">Click on any zone in the viewport to edit its contents.</p>
                             </div>
+                        )
+                    }
+                </aside >
 
-                            {/* Strip List Content - UNLOCKED FOR MULTI-SELECTION */}
-                            <div className="flex-1 overflow-y-auto p-5 custom-scrollbar">
-                                {primaryActiveZone ? (
-                                    <div className="flex flex-col gap-3 pb-8">
-                                        {primaryActiveZone.strips.map((strip, idx) => (
-                                            <StripEditor
-                                                key={strip.id}
-                                                index={idx}
-                                                strip={strip}
-                                                totalStrips={primaryActiveZone.strips.length}
-                                                isVertical={primaryActiveZone.layoutMode === 'vertical'}
-                                                onChange={handleUpdateStrip}
-                                                onRemove={handleRemoveStrip}
-                                                onMove={handleMoveStrip}
-                                            />
-                                        ))}
-                                        <button onClick={handleAddStrip} className="w-full py-5 mt-3 border-2 border-dashed border-slate-800 hover:border-blue-500/50 rounded-lg text-slate-600 hover:text-blue-400 hover:bg-slate-800/30 transition-all flex flex-col items-center justify-center gap-1.5 group">
-                                            <Plus size={28} className="opacity-50 group-hover:opacity-100 group-hover:scale-110 transition-all" />
-                                            <span className="text-sm font-bold">ADD STRIP TO {activeZoneIds.length > 1 ? 'ALL ZONES' : 'ZONE'}</span>
-                                        </button>
-                                    </div>
-                                ) : null}
-                            </div>
-                        </>
-                    ) : (
-                        <div className="flex-1 flex flex-col items-center justify-center text-slate-600 p-8 text-center">
-                            <MousePointer2 size={64} className="mb-6 opacity-20" />
-                            <p className="text-base font-medium text-slate-400">Select a Zone</p>
-                            <p className="text-sm mt-2 text-slate-500">Click on any zone in the viewport to edit its contents.</p>
-                        </div>
-                    )}
-                </aside>
-
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 
