@@ -1,0 +1,5 @@
+{
+  "name": "Trim Sheet Architect",
+  "description": "A technical production tool for generating orthographic trim sheet layouts for game environment art pipelines.",
+  "requestFramePermissions": []
+}
