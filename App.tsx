@@ -505,7 +505,10 @@ const App: React.FC = () => {
 
         let totalSlots = 0;
         masterZone.strips.forEach(s => totalSlots += (s.subdivisions > 1 ? s.subdivisions : 1));
-        const palette = generateDistributedColors(totalSlots);
+
+        // Use a random offset to ensure unique palettes each time
+        const hueOffset = Math.floor(Math.random() * 360);
+        const palette = generateDistributedColors(totalSlots, hueOffset);
         // Shuffle
         for (let i = palette.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -609,7 +612,18 @@ const App: React.FC = () => {
             if (!activeZoneIds.includes(z.id)) return z;
             return {
                 ...z,
-                strips: z.strips.map(s => s.id === id ? { ...s, ...updates } : s)
+                strips: z.strips.map(s => {
+                    if (s.id !== id) return s;
+
+                    // Logic: If 'baseColor' updates, we must sync 'subdivisionColors' unless they are explicitly being set too.
+                    const newStrip = { ...s, ...updates };
+
+                    if (updates.baseColor && !updates.subdivisionColors) {
+                        newStrip.subdivisionColors = Array(newStrip.subdivisions).fill(updates.baseColor);
+                    }
+
+                    return newStrip;
+                })
             };
         });
         setZones(newZones);

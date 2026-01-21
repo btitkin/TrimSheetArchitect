@@ -19,7 +19,7 @@ export const TEXEL_DENSITY_OPTIONS = [
 ];
 
 export const COLORS = [
-  '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF', '#FF00FF', 
+  '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#00FFFF', '#FF00FF',
   '#FFFFFF', '#808080', '#FFA500', '#800080', '#008080', '#FFC0CB'
 ];
 
@@ -37,30 +37,30 @@ const hslToHex = (h: number, s: number, l: number) => {
 };
 
 export const generateUniqueColor = (index: number) => {
-    const goldenAngle = 137.508;
-    const hue = (index * goldenAngle) % 360;
-    const sat = 65 + (index % 5) * 5; 
-    const lig = 45 + (index % 3) * 10;
-    return hslToHex(hue, sat, lig);
+  const goldenAngle = 137.508;
+  const hue = (index * goldenAngle) % 360;
+  const sat = 65 + (index % 5) * 5;
+  const lig = 45 + (index % 3) * 10;
+  return hslToHex(hue, sat, lig);
 };
 
 export const generateRandomFullRangeColor = () => {
-    const h = Math.floor(Math.random() * 360);
-    const s = Math.floor(Math.random() * 50) + 50; 
-    const l = Math.floor(Math.random() * 50) + 30;
-    return hslToHex(h, s, l);
+  const h = Math.floor(Math.random() * 360);
+  const s = Math.floor(Math.random() * 50) + 50;
+  const l = Math.floor(Math.random() * 50) + 30;
+  return hslToHex(h, s, l);
 };
 
-export const generateDistributedColors = (count: number) => {
-    const colors = [];
-    const step = 360 / count;
-    for (let i = 0; i < count; i++) {
-        const hue = (i * step) % 360;
-        const sat = 70 + (i % 2) * 20;
-        const lig = 45 + (i % 3) * 10;
-        colors.push(hslToHex(hue, sat, lig));
-    }
-    return colors;
+export const generateDistributedColors = (count: number, hueOffset: number = 0) => {
+  const colors = [];
+  const step = 360 / count;
+  for (let i = 0; i < count; i++) {
+    const hue = (i * step + hueOffset) % 360;
+    const sat = 70 + (i % 2) * 20;
+    const lig = 45 + (i % 3) * 10;
+    colors.push(hslToHex(hue, sat, lig));
+  }
+  return colors;
 };
 
 // Helper to make a strip
@@ -68,7 +68,7 @@ const createStrip = (partial: Partial<TrimStrip>, index: number): TrimStrip => {
   const baseColor = partial.baseColor || getColor(index);
   const subs = partial.subdivisions || 1;
   return {
-    id: partial.id || `strip_${index}_${Math.random().toString(36).substr(2,5)}`,
+    id: partial.id || `strip_${index}_${Math.random().toString(36).substr(2, 5)}`,
     name: partial.name || `Strip ${index}`,
     height: partial.height || 128,
     fillType: partial.fillType || 'flat',
@@ -82,101 +82,101 @@ const createStrip = (partial: Partial<TrimStrip>, index: number): TrimStrip => {
 export type ZoneTemplateType = 'classic' | 'uniform_4' | 'uniform_8' | 'single' | 'detail_stack';
 
 export const ZONE_TEMPLATES: { value: ZoneTemplateType; label: string }[] = [
-    { value: 'classic', label: 'Classic (Trim/Main/Trim)' },
-    { value: 'uniform_4', label: 'Uniform 4x' },
-    { value: 'uniform_8', label: 'Uniform 8x' },
-    { value: 'single', label: 'Single Fill' },
-    { value: 'detail_stack', label: 'Detail Stack' },
+  { value: 'classic', label: 'Classic (Trim/Main/Trim)' },
+  { value: 'uniform_4', label: 'Uniform 4x' },
+  { value: 'uniform_8', label: 'Uniform 8x' },
+  { value: 'single', label: 'Single Fill' },
+  { value: 'detail_stack', label: 'Detail Stack' },
 ];
 
 export const generateZoneTemplateStrips = (type: ZoneTemplateType, totalSize: number, seed: number): TrimStrip[] => {
-    const strips: TrimStrip[] = [];
-    
-    switch (type) {
-        case 'classic': {
-            // 20% Trim, 60% Main, 20% Trim
-            const trimH = Math.floor(totalSize * 0.2);
-            const mainH = totalSize - (trimH * 2);
-            strips.push(createStrip({ name: "Top_Trim", height: trimH, baseColor: getColor(seed) }, 0));
-            strips.push(createStrip({ name: "Main_Fill", height: mainH, baseColor: getColor(seed+1) }, 1));
-            strips.push(createStrip({ name: "Bot_Trim", height: trimH, baseColor: getColor(seed+2) }, 2));
-            break;
-        }
-        case 'uniform_4': {
-            const h = Math.floor(totalSize / 4);
-            const rem = totalSize - (h * 4);
-            for(let i=0; i<4; i++) {
-                strips.push(createStrip({ name: `Uniform_${i+1}`, height: i===3 ? h+rem : h, baseColor: getColor(seed+i) }, i));
-            }
-            break;
-        }
-        case 'uniform_8': {
-            const h = Math.floor(totalSize / 8);
-            const rem = totalSize - (h * 8);
-            for(let i=0; i<8; i++) {
-                strips.push(createStrip({ name: `Uniform_${i+1}`, height: i===7 ? h+rem : h, baseColor: getColor(seed+i) }, i));
-            }
-            break;
-        }
-        case 'single': {
-            strips.push(createStrip({ name: "Full_Coverage", height: totalSize, baseColor: getColor(seed) }, 0));
-            break;
-        }
-        case 'detail_stack': {
-             // Many small strips
-             let current = 0;
-             let idx = 0;
-             while(current < totalSize) {
-                 const h = Math.min(totalSize - current, idx % 2 === 0 ? 128 : 64);
-                 if (h <= 0) break;
-                 strips.push(createStrip({ name: `Detail_${idx+1}`, height: h, baseColor: getColor(seed+idx), subdivisions: idx % 3 === 0 ? 4 : 1 }, idx));
-                 current += h;
-                 idx++;
-             }
-             break;
-        }
-        default: 
-            return generateDefaultZoneStrips(totalSize, seed);
+  const strips: TrimStrip[] = [];
+
+  switch (type) {
+    case 'classic': {
+      // 20% Trim, 60% Main, 20% Trim
+      const trimH = Math.floor(totalSize * 0.2);
+      const mainH = totalSize - (trimH * 2);
+      strips.push(createStrip({ name: "Top_Trim", height: trimH, baseColor: getColor(seed) }, 0));
+      strips.push(createStrip({ name: "Main_Fill", height: mainH, baseColor: getColor(seed + 1) }, 1));
+      strips.push(createStrip({ name: "Bot_Trim", height: trimH, baseColor: getColor(seed + 2) }, 2));
+      break;
     }
-    return strips;
+    case 'uniform_4': {
+      const h = Math.floor(totalSize / 4);
+      const rem = totalSize - (h * 4);
+      for (let i = 0; i < 4; i++) {
+        strips.push(createStrip({ name: `Uniform_${i + 1}`, height: i === 3 ? h + rem : h, baseColor: getColor(seed + i) }, i));
+      }
+      break;
+    }
+    case 'uniform_8': {
+      const h = Math.floor(totalSize / 8);
+      const rem = totalSize - (h * 8);
+      for (let i = 0; i < 8; i++) {
+        strips.push(createStrip({ name: `Uniform_${i + 1}`, height: i === 7 ? h + rem : h, baseColor: getColor(seed + i) }, i));
+      }
+      break;
+    }
+    case 'single': {
+      strips.push(createStrip({ name: "Full_Coverage", height: totalSize, baseColor: getColor(seed) }, 0));
+      break;
+    }
+    case 'detail_stack': {
+      // Many small strips
+      let current = 0;
+      let idx = 0;
+      while (current < totalSize) {
+        const h = Math.min(totalSize - current, idx % 2 === 0 ? 128 : 64);
+        if (h <= 0) break;
+        strips.push(createStrip({ name: `Detail_${idx + 1}`, height: h, baseColor: getColor(seed + idx), subdivisions: idx % 3 === 0 ? 4 : 1 }, idx));
+        current += h;
+        idx++;
+      }
+      break;
+    }
+    default:
+      return generateDefaultZoneStrips(totalSize, seed);
+  }
+  return strips;
 };
 
 
 // Generates basic template content for a zone so it isn't empty
 export const generateDefaultZoneStrips = (zoneHeightPx: number, seedOffset: number): TrimStrip[] => {
-    // A simple template: Top Trim, Main Fill, Bottom Detail
-    const colorStart = seedOffset * 3;
-    
-    const mainHeight = Math.floor(zoneHeightPx * 0.5);
-    const trimHeight = Math.floor(zoneHeightPx * 0.25);
-    const detailHeight = zoneHeightPx - mainHeight - trimHeight;
+  // A simple template: Top Trim, Main Fill, Bottom Detail
+  const colorStart = seedOffset * 3;
 
-    return [
-        createStrip({ name: "Top_Trim", height: trimHeight, baseColor: getColor(colorStart) }, 0),
-        createStrip({ name: "Main_Fill", height: mainHeight, baseColor: getColor(colorStart + 1) }, 1),
-        createStrip({ name: "Detail_Bottom", height: detailHeight, baseColor: getColor(colorStart + 2), subdivisions: 4 }, 2),
-    ];
+  const mainHeight = Math.floor(zoneHeightPx * 0.5);
+  const trimHeight = Math.floor(zoneHeightPx * 0.25);
+  const detailHeight = zoneHeightPx - mainHeight - trimHeight;
+
+  return [
+    createStrip({ name: "Top_Trim", height: trimHeight, baseColor: getColor(colorStart) }, 0),
+    createStrip({ name: "Main_Fill", height: mainHeight, baseColor: getColor(colorStart + 1) }, 1),
+    createStrip({ name: "Detail_Bottom", height: detailHeight, baseColor: getColor(colorStart + 2), subdivisions: 4 }, 2),
+  ];
 };
 
 const DEFAULT_BG_CONFIG = {
-    renderStyle: 'solid' as const,
-    outlineThickness: 4,
-    outlineFillStyle: 'solid' as const,
-    showTexelDensity: false,
-    texelDensityTarget: 512,
-    stripGridColor: '#000000',
-    globalSaturation: 1.0,
-    globalBrightness: 1.0,
-    exportPostProcessing: true,
+  renderStyle: 'solid' as const,
+  outlineThickness: 4,
+  outlineFillStyle: 'solid' as const,
+  showTexelDensity: false,
+  texelDensityTarget: 512,
+  stripGridColor: '#000000',
+  globalSaturation: 1.0,
+  globalBrightness: 1.0,
+  exportPostProcessing: true,
 };
 
 // --- DATA MIGRATION HELPERS ---
 const wrapInZone = (strips: TrimStrip[]): TrimZone[] => ([{
-    id: 'main_zone',
-    name: 'Main Layout',
-    x: 0, y: 0, width: 1, height: 1,
-    layoutMode: 'horizontal',
-    strips: strips
+  id: 'main_zone',
+  name: 'Main Layout',
+  x: 0, y: 0, width: 1, height: 1,
+  layoutMode: 'horizontal',
+  strips: strips
 }]);
 
 // PRESET DATA (Wrapped)
@@ -227,11 +227,11 @@ const STONE_HIERARCHY = wrapInZone([
 ]);
 
 const ULTIMATE_TRIM_STACK = wrapInZone([
-  createStrip({ id: 'ut1', name: "LARGE_COVERAGE_AREA", height: 1024, baseColor: '#60a5fa' }, 0), 
-  createStrip({ id: 'ut2', name: "MEDIUM_DETAIL_A", height: 256, baseColor: '#e879f9' }, 1), 
+  createStrip({ id: 'ut1', name: "LARGE_COVERAGE_AREA", height: 1024, baseColor: '#60a5fa' }, 0),
+  createStrip({ id: 'ut2', name: "MEDIUM_DETAIL_A", height: 256, baseColor: '#e879f9' }, 1),
   createStrip({ id: 'ut3', name: "MEDIUM_DETAIL_B", height: 256, baseColor: '#d946ef', subdivisions: 2 }, 2),
-  createStrip({ id: 'ut4', name: "SMALL_TRIM_A", height: 128, baseColor: '#fdba74' }, 3), 
-  createStrip({ id: 'ut5', name: "SMALL_TRIM_B", height: 128, baseColor: '#fb923c' }, 4), 
+  createStrip({ id: 'ut4', name: "SMALL_TRIM_A", height: 128, baseColor: '#fdba74' }, 3),
+  createStrip({ id: 'ut5', name: "SMALL_TRIM_B", height: 128, baseColor: '#fb923c' }, 4),
   createStrip({ id: 'ut6', name: "END_CAPS_ROW", height: 128, baseColor: '#86efac', subdivisions: 8 }, 5),
   createStrip({ id: 'ut7', name: "DECALS_ROW", height: 128, baseColor: '#4ade80', subdivisions: 8 }, 6)
 ]);
